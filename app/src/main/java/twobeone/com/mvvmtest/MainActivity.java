@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding activityMainBinding;
     private MainViewModel mainViewModel;
-    private Button mBtnIn, mBtnDe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
