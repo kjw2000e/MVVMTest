@@ -36,5 +36,5 @@ public interface RetrofitService {
     RetrofitService getInstance = retrofit.create(RetrofitService.class);
 
     @GET("melon/newChartList")
-    Call<MelonDomain> getMelonChartList(@QueryMap Map<String, String> params);
+    Call<MelonDomain> getMelonChartList();
 }
