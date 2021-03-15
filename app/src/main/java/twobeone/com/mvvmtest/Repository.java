@@ -12,6 +12,7 @@ import retrofit2.Response;
 import twobeone.com.mvvmtest.Model.MelonDomain;
 import twobeone.com.mvvmtest.Model.MelonItem;
 import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.Model.vo.Resource;
 
 public class Repository {
     private static final Repository repository = new Repository();
@@ -23,9 +24,8 @@ public class Repository {
     private Repository() {
     }
 
-    public MutableLiveData<ArrayList<MelonItem>> getChartList() {
-
-        MutableLiveData<ArrayList<MelonItem>> melonItem = new MutableLiveData<>();
+    public MutableLiveData<Resource<ArrayList<MelonItem>>> getChartList() {
+        MutableLiveData<Resource<ArrayList<MelonItem>>> melonItem = new MutableLiveData<>();
 
         Call<MelonDomain> call = RetrofitService.getInstance.getMelonChartList();
         call.enqueue(new Callback<MelonDomain>() {
@@ -35,14 +35,14 @@ public class Repository {
                     MelonDomain melonDomain = response.body();
 
                     if (melonDomain != null) {
-                        melonItem.setValue(melonDomain.getContent());
+                        melonItem.setValue(Resource.success(response.body().getContent()));
                     }
                }
             }
 
             @Override
             public void onFailure(Call<MelonDomain> call, Throwable t) {
-                melonItem.setValue(null);
+                melonItem.setValue(Resource.error(t.getMessage(), null));
             }
         });
 

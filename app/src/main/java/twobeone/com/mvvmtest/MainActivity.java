@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import twobeone.com.mvvmtest.Interface.OnMelonItemClickListener;
 import twobeone.com.mvvmtest.Model.MelonItem;
 import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.Model.vo.Resource;
+import twobeone.com.mvvmtest.Model.vo.Status;
 import twobeone.com.mvvmtest.Player.ExoPlayerService;
 import twobeone.com.mvvmtest.Player.PlayerCallback;
 import twobeone.com.mvvmtest.Player.PlayerController;
@@ -93,11 +95,16 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
         activityMainBinding.getlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainViewModel.getChartList().observe(MainActivity.this, new Observer<ArrayList<MelonItem>>() {
+                mainViewModel.getChartList().observe(MainActivity.this, new Observer<Resource<ArrayList<MelonItem>>>() {
                     @Override
-                    public void onChanged(ArrayList<MelonItem> melonItems) {
-                        if (melonItems != null) {
-                            mMelonChartAdapter.UpdateData(melonItems);
+                    public void onChanged(Resource<ArrayList<MelonItem>> melonItem) {
+                        if (melonItem.status == Status.SUCCESS) {
+                            Log.e("kjw333", "success : ");
+                            if (melonItem.data != null) {
+                                mMelonChartAdapter.UpdateData(melonItem.data);
+                            }
+                        } else {
+                            Log.e("kjw333", "onfail : " + melonItem.message);
                         }
                     }
                 });
