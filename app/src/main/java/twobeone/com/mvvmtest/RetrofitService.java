@@ -7,9 +7,12 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 import twobeone.com.mvvmtest.Model.MelonDomain;
+import twobeone.com.mvvmtest.Model.MelonStreamingItem;
 
 
 public interface RetrofitService {
@@ -37,4 +40,7 @@ public interface RetrofitService {
 
     @GET("melon/newChartList")
     Call<MelonDomain> getMelonChartList();
+
+    @POST("melon/newStreaming")
+    Call<MelonStreamingItem> getMelonStreaming(@Body Map<String, String> params);
 }

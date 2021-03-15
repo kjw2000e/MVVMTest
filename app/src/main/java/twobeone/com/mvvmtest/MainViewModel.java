@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import twobeone.com.mvvmtest.Model.MelonItem;
+import twobeone.com.mvvmtest.Model.MelonStreamingItem;
 
 public class MainViewModel extends ViewModel {
 
@@ -28,7 +29,11 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    public MutableLiveData<ArrayList<MelonItem>>  getChartList () {
+    public LiveData<ArrayList<MelonItem>> getChartList () {
         return repository.getChartList();
+    }
+
+    public LiveData<MelonStreamingItem> getStreamingInfo (MelonItem item) {
+        return repository.getStreamingItem(item);
     }
 }
