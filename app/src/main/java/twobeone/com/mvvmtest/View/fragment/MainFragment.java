@@ -113,15 +113,38 @@ public class MainFragment extends Fragment {
         });
     }
 
+    private void getRecommList(int playListId) {
+        mainFragmentViewModel.getRecommList(playListId).observe(this, new Observer<Resource<ArrayList<GenieItem>>>() {
+            @Override
+            public void onChanged(Resource<ArrayList<GenieItem>> item) {
+                Log.e("kjw333", "status : " + item.status);
+                if (item.status == Status.SUCCESS) {
+                    playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_GENIE_DRIVING, true, item.data, null);
+                } else if (item.status == Status.LOADING) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
     private OnPlayListItemClickListener playListClickListener = new OnPlayListItemClickListener() {
         @Override
         public void onClick(Object item, String type, boolean isPlayDepth) {
             switch (type) {
                 case AppConst.Genie.PLAYLIST_TYPE_GENIE_CHART:
                     Log.e("kjw333", "here1111 : " + ((GenieItem)item).getSong_name());
+                    // 스트리밍 요청
                     break;
                 case AppConst.Genie.PLAYLIST_TYPE_GENIE_DRIVING:
                     Log.e("kjw333", "here2222 : " + ((GeniePlayListItem)item).getPlm_title());
+
+                    if (!isPlayDepth) {
+                        getRecommList(((GeniePlayListItem) item).getPlm_seq());
+                    } else {
+                        // 스트리밍 요청
+                    }
                     break;
             }
         }

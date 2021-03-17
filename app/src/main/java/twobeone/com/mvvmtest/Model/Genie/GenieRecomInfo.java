@@ -1,5 +1,7 @@
 package twobeone.com.mvvmtest.Model.Genie;
 
+import java.util.ArrayList;
+
 public class GenieRecomInfo {
     /*
             "info": {
@@ -19,33 +21,64 @@ public class GenieRecomInfo {
                 "reg_dt": "2021-03-17 오전 11:30:53",
                 "favorite": false,
                 "song": {
-            "count": 30,
+                    "count": 30,
                     "items": [
-            {
-                "duration": 178,
-                    "song_id": 92527816,
-                    "artist_name": "Drake",
-                    "album_name": "Scary Hours 2",
-                    "album_img_path": "http://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/933/386/81933386_1614922059148_1_140x140.JPG",
-                    "song_adlt_yn": "N",
-                    "song_name": "What's Next",
-                    "album_id": 81933386,
-                    "stm_yn": "Y",
-                    "artist_id": 79929677
+                          {
+                             "duration": 178,
+                            "song_id": 92527816,
+                            "artist_name": "Drake",
+                            "album_name": "Scary Hours 2",
+                            "album_img_path": "http://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/933/386/81933386_1614922059148_1_140x140.JPG",
+                            "song_adlt_yn": "N",
+                            "song_name": "What's Next",
+                            "album_id": 81933386,
+                            "stm_yn": "Y",
+                            "artist_id": 79929677
             },*/
 
 
-    private int plm_seq;
-    private int favorite_cnt;
-    private int song_cnt;
-    private int view_cnt;
-    private int listen_cnt;
-    private int plt_seq;
-    private int maker_seq;
-    private String plm_title;
-    private String disp_dt;
-    private String img_path;
-    private String plt_name;
+//    private int plm_seq;
+//    private int favorite_cnt;
+//    private int song_cnt;
+//    private int view_cnt;
+//    private int listen_cnt;
+//    private int plt_seq;
+//    private int maker_seq;
+//    private String plm_title;
+//    private String disp_dt;
+//    private String img_path;
+//    private String plt_name;
 
+    private SongItem song;
+
+    public SongItem getSong() {
+        return song;
+    }
+
+    public void setSong(SongItem song) {
+        this.song = song;
+    }
+
+    public class SongItem {
+        private int count;
+        private ArrayList<GenieItem> items;
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        public ArrayList<GenieItem> getItems() {
+            return items;
+        }
+
+        public void setItems(ArrayList<GenieItem> items) {
+            this.items = items;
+        }
+
+    }
 
 }

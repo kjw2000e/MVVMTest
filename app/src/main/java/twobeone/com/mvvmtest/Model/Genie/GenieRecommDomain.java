@@ -1,6 +1,8 @@
 package twobeone.com.mvvmtest.Model.Genie;
 
-public class GenieRecomDomain {
+import java.util.ArrayList;
+
+public class GenieRecommDomain {
 
 /*    "resultCode": "0",
             "resultMessage": "성공",
@@ -38,7 +40,29 @@ public class GenieRecomDomain {
 
        private String resultCode;
        private String resultMessage;
-       private ArrayList<>
+       private GenieRecomInfo info;
 
+       public String getResultCode() {
+              return resultCode;
+       }
 
+       public void setResultCode(String resultCode) {
+              this.resultCode = resultCode;
+       }
+
+       public String getResultMessage() {
+              return resultMessage;
+       }
+
+       public void setResultMessage(String resultMessage) {
+              this.resultMessage = resultMessage;
+       }
+
+       public GenieRecomInfo getInfo() {
+              return info;
+       }
+
+       public void setInfo(GenieRecomInfo info) {
+              this.info = info;
+       }
 }

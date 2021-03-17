@@ -21,4 +21,8 @@ public class MainFragmentViewModel extends ViewModel {
     public MutableLiveData<Resource<ArrayList<GeniePlayListItem>>> getDrivingPlayList() {
         return repository.getDrivingPlayList();
     }
+
+    public MutableLiveData<Resource<ArrayList<GenieItem>>> getRecommList(int playListId) {
+        return repository.getRecommList(playListId);
+    }
 }

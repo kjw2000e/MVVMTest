@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import twobeone.com.mvvmtest.Model.Genie.GenieDomain;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListDomain;
+import twobeone.com.mvvmtest.Model.Genie.GenieRecommDomain;
 import twobeone.com.mvvmtest.Model.Melon.MelonDomain;
 import twobeone.com.mvvmtest.Model.Melon.MelonStreamingItem;
 
@@ -50,8 +51,9 @@ public interface RetrofitService {
     @POST("/cloud/mss/drivingchart/req")
     Call<GeniePlayListDomain> getDrivingPlayList(@Body Map<String, Integer> params);
 
+    // 드라이빙 플레이 리스트 songlist api
     @POST("/cloud/mss/recommendsongschart/req")
-    Call
+    Call<GenieRecommDomain> getRecommendSongList(@Body Map<String, Integer> params);
 
 
     // 멜론

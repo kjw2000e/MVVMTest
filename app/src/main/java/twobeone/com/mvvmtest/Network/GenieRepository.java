@@ -15,6 +15,7 @@ import twobeone.com.mvvmtest.Model.Genie.GenieDomain;
 import twobeone.com.mvvmtest.Model.Genie.GenieItem;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListDomain;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListItem;
+import twobeone.com.mvvmtest.Model.Genie.GenieRecommDomain;
 import twobeone.com.mvvmtest.Model.vo.Resource;
 
 public class GenieRepository {
@@ -97,5 +98,40 @@ public class GenieRepository {
         });
 
         return playlistItem;
+    }
+
+    public MutableLiveData<Resource<ArrayList<GenieItem>>> getRecommList(int playlistId) {
+        MutableLiveData<Resource<ArrayList<GenieItem>>> item = new MutableLiveData<>();
+        Map<String, Integer> map = new HashMap<>();
+        map.put("brand", 1);
+        map.put("plm_seq", playlistId);
+
+        Call<GenieRecommDomain> call = RetrofitService.getInstance.getRecommendSongList(map);
+        call.enqueue(new Callback<GenieRecommDomain>() {
+            @Override
+            public void onResponse(Call<GenieRecommDomain> call, Response<GenieRecommDomain> response) {
+                if (response.isSuccessful()) {
+                    GenieRecommDomain body = response.body();
+                    if (body != null) {
+                        if (body.getResultCode().equals("0")) {
+                            item.postValue(Resource.success(body.getInfo().getSong().getItems()));
+                        } else {
+                            item.postValue(Resource.error(body.getResultCode(), null));
+                        }
+                    } else {
+                        item.postValue(Resource.error("body is null", null));
+                    }
+                } else {
+                    item.postValue(Resource.error(AppConst.Error.RESPONSE_FAIL, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenieRecommDomain> call, Throwable t) {
+                item.postValue(Resource.error(AppConst.Error.RESPONSE_FAIL, null));
+            }
+        });
+
+        return item;
     }
 }
