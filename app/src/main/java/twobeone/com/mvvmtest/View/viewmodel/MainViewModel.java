@@ -1,21 +1,20 @@
-package twobeone.com.mvvmtest;
-
-import android.util.Log;
+package twobeone.com.mvvmtest.View.viewmodel;
 
 import java.util.ArrayList;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import twobeone.com.mvvmtest.Model.MelonItem;
-import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.Model.Melon.MelonItem;
+import twobeone.com.mvvmtest.Model.Melon.MelonStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
+import twobeone.com.mvvmtest.Network.MelonRepository;
 
 public class MainViewModel extends ViewModel {
 
     public MutableLiveData<Integer> data = new MutableLiveData<>();
 
-    private Repository repository = Repository.getInstance();
+    private MelonRepository melonRepository = MelonRepository.getInstance();
 
     public void init() {
         data.setValue(0);
@@ -31,10 +30,10 @@ public class MainViewModel extends ViewModel {
 
 
     public LiveData<Resource<ArrayList<MelonItem>>> getChartList () {
-        return repository.getChartList();
+        return melonRepository.getChartList();
     }
 
-    public LiveData<MelonStreamingItem> getStreamingInfo (MelonItem item) {
-        return repository.getStreamingItem(item);
+    public LiveData<Resource<MelonStreamingItem>> getStreamingInfo (MelonItem item) {
+        return melonRepository.getStreamingItem(item);
     }
 }

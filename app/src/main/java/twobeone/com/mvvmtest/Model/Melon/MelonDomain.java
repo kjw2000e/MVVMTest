@@ -1,4 +1,4 @@
-package twobeone.com.mvvmtest.Model;
+package twobeone.com.mvvmtest.Model.Melon;
 
 import java.util.ArrayList;
 

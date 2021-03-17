@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MVVMTest</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="genie_tab_inqueue" LID="LID1112942">재생 목록</string>
+    <string name="genie_tab_chart" LID="LID1112951">지니 차트</string>
+    <string name="genie_tab_driving" LID="LID1112927">드라이빙 추천곡</string>
+    <string name="genie_tab_myplaylist" LID="LID1112918">내 플레이 리스트</string>
+    <string name="genie_tab_latest_releases" LID="LID1112954">최신 음악</string>
 </resources>

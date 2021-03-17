@@ -26,10 +26,14 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSink;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.exoplayer2.util.Util;
@@ -43,6 +47,7 @@ import okhttp3.OkHttpClient;
 import twobeone.com.mvvmtest.AppConst;
 import twobeone.com.mvvmtest.GlobalStatus;
 import twobeone.com.mvvmtest.R;
+import twobeone.com.mvvmtest.Utils;
 
 
 public class ExoPlayerService extends Service implements PlayerController {
@@ -252,7 +257,7 @@ public class ExoPlayerService extends Service implements PlayerController {
     private static SimpleCache getInstanceSimpleCache(long maxSize, Context context) {
         DatabaseProvider databaseProvider = new ExoDatabaseProvider(context);
         if (simpleCache == null)
-            simpleCache = new SimpleCache(new File(Environment.getExternalStorageDirectory() + "/Motrex/cache/", "exo"), new LeastRecentlyUsedCacheEvictor(maxSize), databaseProvider);
+            simpleCache = new SimpleCache(context.getCacheDir(), new LeastRecentlyUsedCacheEvictor(maxSize));
         return simpleCache;
     }
 
@@ -343,7 +348,9 @@ public class ExoPlayerService extends Service implements PlayerController {
                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, context.getApplicationInfo().name));
                 mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url));
             } else {
-                ProgressiveMediaSource .Factory factory = new ProgressiveMediaSource .Factory(dataSourceFactory);
+//                ProgressiveMediaSource .Factory factory = new ProgressiveMediaSource.Factory(dataSourceFactory);
+
+                ExtractorMediaSource.Factory factory = new ExtractorMediaSource.Factory(dataSourceFactory);
                     factory.setCustomCacheKey(customKey);
                     mediaSource = factory.createMediaSource(Uri.parse(url));
             }
@@ -380,13 +387,14 @@ public class ExoPlayerService extends Service implements PlayerController {
                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, context.getApplicationInfo().name));
                 mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url));
             } else {
-                ProgressiveMediaSource.Factory factory = new ProgressiveMediaSource .Factory(dataSourceFactory);
+//                ProgressiveMediaSource.Factory factory = new ProgressiveMediaSource.Factory(dataSourceFactory);
+
+                ExtractorMediaSource.Factory factory = new ExtractorMediaSource.Factory(dataSourceFactory);
                 factory.setCustomCacheKey(customKey);
                 mediaSource = factory.createMediaSource(Uri.parse(url));
             }
             if (exoPlayer.getPlaybackState() != Player.STATE_IDLE) {
                 setStop();
-//                exoPlayer.stop(true);
             }
             isPrepared = true;
 

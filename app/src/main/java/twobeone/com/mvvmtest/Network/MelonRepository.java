@@ -1,4 +1,4 @@
-package twobeone.com.mvvmtest;
+package twobeone.com.mvvmtest.Network;
 
 import android.util.Log;
 
@@ -9,19 +9,21 @@ import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import twobeone.com.mvvmtest.Model.MelonDomain;
-import twobeone.com.mvvmtest.Model.MelonItem;
-import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.MelonStatus;
+import twobeone.com.mvvmtest.Model.Melon.MelonDomain;
+import twobeone.com.mvvmtest.Model.Melon.MelonItem;
+import twobeone.com.mvvmtest.Model.Melon.MelonStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
+import twobeone.com.mvvmtest.Utils;
 
-public class Repository {
-    private static final Repository repository = new Repository();
+public class MelonRepository {
+    private static final MelonRepository melonRepository = new MelonRepository();
 
-    public static Repository getInstance() {
-        return repository;
+    public static MelonRepository getInstance() {
+        return melonRepository;
     }
 
-    private Repository() {
+    private MelonRepository() {
     }
 
     public MutableLiveData<Resource<ArrayList<MelonItem>>> getChartList() {
@@ -49,8 +51,8 @@ public class Repository {
         return melonItem;
     }
 
-    public MutableLiveData<MelonStreamingItem> getStreamingItem(MelonItem item) {
-        MutableLiveData<MelonStreamingItem> streamingItem = new MutableLiveData<>();
+    public MutableLiveData<Resource<MelonStreamingItem>> getStreamingItem(MelonItem item) {
+        MutableLiveData<Resource<MelonStreamingItem>> streamingItem = new MutableLiveData<>();
 
         Map<String, String> p = Utils.makeExtraParams();
         //new API
@@ -72,7 +74,7 @@ public class Repository {
         call.enqueue(new Callback<MelonStreamingItem>() {
             @Override
             public void onResponse(Call<MelonStreamingItem> call, Response<MelonStreamingItem> response) {
-                if (response != null && response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     if (response.body() != null) {
                         MelonStreamingItem data = response.body();
 
@@ -92,29 +94,29 @@ public class Repository {
                             //로그인 (상품보유)
                             data.setACTIONCODE("100");
                             data.setMESSAGE("");
-                            streamingItem.postValue(data);
+                            streamingItem.postValue(Resource.success(data));
                         }  else if ("-2002".equals(result)) {
                             //중복 스트리밍
                             streamingItem.postValue(null);
                         } else if (data.getGETPATHINFO() != null) {
                             //미로그인, 미결제, 권리사 등등
                             if(data.getGETPATHINFO().getPATH() == null || "".equals(data.getGETPATHINFO().getPATH())){
-                                streamingItem.postValue(null);
+                                streamingItem.postValue(Resource.error("not path", null));
                             }else{
-                                streamingItem.postValue(data);
+                                streamingItem.postValue(Resource.success(data));
                             }
                         } else {
-                            streamingItem.postValue(null);
+                            streamingItem.postValue(Resource.error("result" + result, null));
                         }
                     }
                 } else {
-                    streamingItem.postValue(null);
+                    streamingItem.postValue(Resource.error("not successful", null));
                 }
             }
 
             @Override
             public void onFailure(Call<MelonStreamingItem> call, Throwable t) {
-                streamingItem.postValue(null);
+                streamingItem.postValue(Resource.error(t.getMessage(), null));
                 Log.e("kjw333", "onFailure : " + t.getMessage());
             }
         });

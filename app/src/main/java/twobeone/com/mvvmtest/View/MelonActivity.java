@@ -1,19 +1,23 @@
-package twobeone.com.mvvmtest;
+package twobeone.com.mvvmtest.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import twobeone.com.mvvmtest.Interface.OnMelonItemClickListener;
-import twobeone.com.mvvmtest.Model.MelonItem;
-import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.AppConst;
+import twobeone.com.mvvmtest.GlobalStatus;
+import twobeone.com.mvvmtest.Interface.OnPlayListItemClickListener;
+import twobeone.com.mvvmtest.View.adapter.PlayListAdapter;
+import twobeone.com.mvvmtest.Model.Melon.MelonItem;
+import twobeone.com.mvvmtest.Model.Melon.MelonStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
 import twobeone.com.mvvmtest.Model.vo.Status;
 import twobeone.com.mvvmtest.Player.ExoPlayerService;
 import twobeone.com.mvvmtest.Player.PlayerCallback;
 import twobeone.com.mvvmtest.Player.PlayerController;
-import twobeone.com.mvvmtest.databinding.ActivityMainBinding;
+import twobeone.com.mvvmtest.View.viewmodel.MainViewModel;
+import twobeone.com.mvvmtest.databinding.ActivityMelonBinding;
 import twobeone.com.mvvmtest.databinding.IncludeMiniPlayerBinding;
 
 import android.content.ComponentName;
@@ -23,22 +27,19 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements PlayerCallback {
-
-    private ActivityMainBinding activityMainBinding;
+public class MelonActivity extends AppCompatActivity implements PlayerCallback {
+    private ActivityMelonBinding activityMelonBinding;
     private IncludeMiniPlayerBinding miniPlayerBinding;
     private MainViewModel mainViewModel;
     private RecyclerView mRv;
-    private MelonChartAdapter mMelonChartAdapter;
+    private PlayListAdapter mPlayListAdapter;
 
     private PlayerView mPlayerView;
     private boolean mBound = false;
@@ -51,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        activityMelonBinding = ActivityMelonBinding.inflate(getLayoutInflater());
 //        miniPlayerBinding = IncludeMiniPlayerBinding.inflate(getLayoutInflater());
 
-        View view = activityMainBinding.getRoot();
+        View view = activityMelonBinding.getRoot();
         setContentView(view);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -62,46 +63,47 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
 
         GlobalStatus.setCurrentViewId(AppConst.StreamingType.STREAMING_TYPE_MELON);
 
-        mRv = activityMainBinding.rv;
+        mRv = activityMelonBinding.rv;
         mRv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        miniPlayerBinding = activityMainBinding.layoutPlayer;
+        miniPlayerBinding = activityMelonBinding.layoutPlayer;
 
-        mMelonChartAdapter = new MelonChartAdapter(new OnMelonItemClickListener() {
+        mPlayListAdapter = new PlayListAdapter(new OnPlayListItemClickListener() {
             @Override
-            public void onClick(MelonItem item) {
-                mainViewModel.getStreamingInfo(item).observe(MainActivity.this, new Observer<MelonStreamingItem>() {
+            public void onClick(Object item, String type, boolean isPlayDepth) {
+                mainViewModel.getStreamingInfo((MelonItem)item).observe(MelonActivity.this, new Observer<Resource<MelonStreamingItem>>() {
                     @Override
-                    public void onChanged(MelonStreamingItem melonStreamingItem) {
-                        Log.e("kjw333", "here111");
-
-                        if (melonStreamingItem != null) {
-                            // 엑소 플레이어 플레이
-
-                            if (playerController != null) {
-                                Log.e("kjw333", "path :" + melonStreamingItem.getGETPATHINFO().getPATH());
-                                String customKey = melonStreamingItem.getGETPATHINFO().getCID() + melonStreamingItem.getGETPATHINFO().getMETATYPE() + melonStreamingItem.getGETPATHINFO().getBITRATE() + melonStreamingItem.getGETPATHINFO().getPLAYTIME();
-                                Log.e("kjw333", "customKey :" + customKey);
-                                playerController.preparePauseWhenReady(AppConst.StreamingType.STREAMING_TYPE_MELON, false, customKey, melonStreamingItem.getGETPATHINFO().getPATH());
+                    public void onChanged(Resource<MelonStreamingItem> item) {
+                        Log.e("kjw333", item.toString());
+                        if (item.status == Status.SUCCESS) {
+                            if (item.data != null) {
+                                if (playerController != null) {
+                                    Log.e("kjw333", "path :" + item.data.getGETPATHINFO().getPATH());
+                                    String customKey = item.data.getGETPATHINFO().getCID() + item.data.getGETPATHINFO().getMETATYPE() + item.data.getGETPATHINFO().getBITRATE() + item.data.getGETPATHINFO().getPLAYTIME();
+                                    Log.e("kjw333", "customKey :" + customKey);
+                                    playerController.prepare(AppConst.StreamingType.STREAMING_TYPE_MELON, false, customKey, item.data.getGETPATHINFO().getPATH());
+                                }
                             }
+                        } else if (item.status == Status.LOADING) {
 
-//                            miniPlayerBinding.splitTitle.setText(melonStreamingItem.getCONTENTSINFO());
+                        } else {
+                            Log.e("kjw333", "error : " + item.message);
                         }
                     }
                 });
             }
         });
-        mRv.setAdapter(mMelonChartAdapter);
+        mRv.setAdapter(mPlayListAdapter);
 
-        activityMainBinding.getlist.setOnClickListener(new View.OnClickListener() {
+        activityMelonBinding.getlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainViewModel.getChartList().observe(MainActivity.this, new Observer<Resource<ArrayList<MelonItem>>>() {
+                mainViewModel.getChartList().observe(MelonActivity.this, new Observer<Resource<ArrayList<MelonItem>>>() {
                     @Override
                     public void onChanged(Resource<ArrayList<MelonItem>> melonItem) {
                         if (melonItem.status == Status.SUCCESS) {
                             Log.e("kjw333", "success : ");
                             if (melonItem.data != null) {
-                                mMelonChartAdapter.UpdateData(melonItem.data);
+                                mPlayListAdapter.updateData("melon chart", true, melonItem.data, null);
                             }
                         } else {
                             Log.e("kjw333", "onfail : " + melonItem.message);
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
                 mBound = true;
 
                 playerController = mService;
-                playerController.addPlayerCallback(AppConst.StreamingType.STREAMING_TYPE_MELON, MainActivity.this);
+                playerController.addPlayerCallback(AppConst.StreamingType.STREAMING_TYPE_MELON, MelonActivity.this);
 
 //                mPlayerView.setPlayer(playerController.getPlayer());
             }
@@ -142,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
     @Override
     public void onPrepared(int duration) {
         Log.e("kjw333", "onPrepared : " + duration);
-
-        playerController.setPlay();
     }
 
     @Override

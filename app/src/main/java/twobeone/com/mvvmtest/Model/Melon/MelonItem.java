@@ -1,4 +1,4 @@
-package twobeone.com.mvvmtest.Model;
+package twobeone.com.mvvmtest.Model.Melon;
 
 public class MelonItem {
     //    "trackId": "31652857",

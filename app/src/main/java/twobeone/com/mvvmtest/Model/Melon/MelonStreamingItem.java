@@ -1,4 +1,4 @@
-package twobeone.com.mvvmtest.Model;
+package twobeone.com.mvvmtest.Model.Melon;
 
 /**
  * Created by jiwon on 2018-01-04.

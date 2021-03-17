@@ -7,6 +7,19 @@ public class AppConst {
         public static final int STREAMING_TYPE_MELON = 2000;
     }
 
+    public class Frag {
+        public static final String FRAG_ID_MAIN = "MainFragment";
+    }
+
+    // genie
+    public class Genie {
+        public static final String PLAYLIST_TYPE_GENIE_INQUEUE = "genie_inqueue";
+        public static final String PLAYLIST_TYPE_GENIE_CHART = "genie_chart";
+        public static final String PLAYLIST_TYPE_GENIE_DRIVING = "genie_driving";
+        public static final String PLAYLIST_TYPE_GENIE_MYLIST = "genie_mylist";
+        public static final String PLAYLIST_TYPE_GENIE_LATESTMUSIC = "genie_latestmusic";
+    }
+
     //melon
     public class Melon {
         //api

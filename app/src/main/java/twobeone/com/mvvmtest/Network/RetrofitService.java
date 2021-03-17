@@ -1,4 +1,4 @@
-package twobeone.com.mvvmtest;
+package twobeone.com.mvvmtest.Network;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -10,9 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.QueryMap;
-import twobeone.com.mvvmtest.Model.MelonDomain;
-import twobeone.com.mvvmtest.Model.MelonStreamingItem;
+import twobeone.com.mvvmtest.Model.Genie.GenieDomain;
+import twobeone.com.mvvmtest.Model.Genie.GeniePlayListDomain;
+import twobeone.com.mvvmtest.Model.Melon.MelonDomain;
+import twobeone.com.mvvmtest.Model.Melon.MelonStreamingItem;
 
 
 public interface RetrofitService {
@@ -31,16 +32,32 @@ public interface RetrofitService {
             .build();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://www.popmediacloud.com:8081/cloud/api/")
+            .baseUrl("http://www.popmediacloud.com:8081/cloud/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
     RetrofitService getInstance = retrofit.create(RetrofitService.class);
 
-    @GET("melon/newChartList")
+
+
+    // http://www.popmediacloud.com:8081/cloud/mss/realtimechart/req
+
+    // 지니
+    @POST("mss/realtimechart/req")
+    Call<GenieDomain> getGenieChart(@Body Map<String, Integer> params);
+
+    @POST("/cloud/mss/drivingchart/req")
+    Call<GeniePlayListDomain> getDrivingPlayList(@Body Map<String, Integer> params);
+
+    @POST("/cloud/mss/recommendsongschart/req")
+    Call
+
+
+    // 멜론
+    @GET("api/melon/newChartList")
     Call<MelonDomain> getMelonChartList();
 
-    @POST("melon/newStreaming")
+    @POST("api/melon/newStreaming")
     Call<MelonStreamingItem> getMelonStreaming(@Body Map<String, String> params);
 }
