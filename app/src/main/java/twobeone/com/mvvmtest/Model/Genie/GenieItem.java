@@ -2,17 +2,24 @@ package twobeone.com.mvvmtest.Model.Genie;
 
 public class GenieItem {
 
-/*                "rownum": 1,
-                        "song_id": 86992414,
-                        "artist_id": 80130534,
-                        "album_id": 80927790,
-                        "duration": 198,
-                        "song_name": "롤린 (Rollin')",
-                        "artist_name": "브레이브걸스 (Brave girls)",
-                        "album_name": "Rollin'",
-                        "song_adlt_yn": "N",
-                        "stm_yn": "Y",
-                        "img_path": "http://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/080/927/790/80927790_1614654739083_1_140x140.JPG"*/
+    /*
+    "rownum": 1,
+    "song_id": 86992414,
+    "artist_id": 80130534,
+    "album_id": 80927790,
+    "duration": 198,
+    "song_name": "롤린 (Rollin')",
+    "artist_name": "브레이브걸스 (Brave girls)",
+    "album_name": "Rollin'",
+    "song_adlt_yn": "N",
+    "stm_yn": "Y",
+    "img_path": "http://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/080/927/790/80927790_1614654739083_1_140x140.JPG"
+    */
+    public static final String VALUE_Y = "Y";
+    public static final String VALUE_N = "N";
+    public static final String VALUE_FALSE = "false";
+    public static final String VALUE_TRUE = "true";
+
     private int rownum;
     private int song_id;
     private int artist_id;
@@ -24,6 +31,8 @@ public class GenieItem {
     private String song_adlt_yn;
     private String stm_yn;
     private String img_path;
+
+    private GenieStreamingItem streamingItem;
 
     public int getRownum() {
         return rownum;
@@ -111,5 +120,13 @@ public class GenieItem {
 
     public void setImg_path(String img_path) {
         this.img_path = img_path;
+    }
+
+    public GenieStreamingItem getStreamingItem() {
+        return streamingItem;
+    }
+
+    public void setStreamingItem(GenieStreamingItem streamingItem) {
+        this.streamingItem = streamingItem;
     }
 }

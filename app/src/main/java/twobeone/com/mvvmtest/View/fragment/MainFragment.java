@@ -21,6 +21,7 @@ import twobeone.com.mvvmtest.AppConst;
 import twobeone.com.mvvmtest.Interface.OnPlayListItemClickListener;
 import twobeone.com.mvvmtest.Model.Genie.GenieItem;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListItem;
+import twobeone.com.mvvmtest.Model.Genie.GenieStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
 import twobeone.com.mvvmtest.Model.vo.Status;
 import twobeone.com.mvvmtest.View.adapter.PlayListAdapter;
@@ -87,7 +88,7 @@ public class MainFragment extends Fragment {
                 Log.e("kjw333", "status : " + item.status);
                 if (item.status == Status.SUCCESS) {
                     if (item.data != null && item.data.size() != 0) {
-                        playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_GENIE_CHART, true, item.data, null);
+                        playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_CHART, true, item.data, null);
                     }
                 } else if (item.status == Status.LOADING) {
 
@@ -104,7 +105,7 @@ public class MainFragment extends Fragment {
             public void onChanged(Resource<ArrayList<GeniePlayListItem>> item) {
                 Log.e("kjw333", "status : " + item.status);
                 if (item.status == Status.SUCCESS) {
-                    playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_GENIE_DRIVING, false, null, item.data);
+                    playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_DRIVING, false, null, item.data);
                 } else if (item.status == Status.LOADING) {
                 } else {
 
@@ -119,7 +120,25 @@ public class MainFragment extends Fragment {
             public void onChanged(Resource<ArrayList<GenieItem>> item) {
                 Log.e("kjw333", "status : " + item.status);
                 if (item.status == Status.SUCCESS) {
-                    playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_GENIE_DRIVING, true, item.data, null);
+                    playListAdapter.updateData(AppConst.Genie.PLAYLIST_TYPE_DRIVING, true, item.data, null);
+                } else if (item.status == Status.LOADING) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void getStreamingPath(int songId) {
+        mainFragmentViewModel.getStreamingPath(songId).observe(this, new Observer<Resource<ArrayList<GenieStreamingItem>>>() {
+            @Override
+            public void onChanged(Resource<ArrayList<GenieStreamingItem>> item) {
+                Log.e("kjw333", "" + item.status);
+                if (item.status == Status.SUCCESS) {
+                    if (item.data != null) {
+                        Log.e("kjw333", "url : " + item.data.get(0).getResource_url());
+                    }
                 } else if (item.status == Status.LOADING) {
 
                 } else {
@@ -133,17 +152,18 @@ public class MainFragment extends Fragment {
         @Override
         public void onClick(Object item, String type, boolean isPlayDepth) {
             switch (type) {
-                case AppConst.Genie.PLAYLIST_TYPE_GENIE_CHART:
+                case AppConst.Genie.PLAYLIST_TYPE_CHART:
                     Log.e("kjw333", "here1111 : " + ((GenieItem)item).getSong_name());
-                    // 스트리밍 요청
+                    getStreamingPath(((GenieItem) item).getSong_id());
                     break;
-                case AppConst.Genie.PLAYLIST_TYPE_GENIE_DRIVING:
+                case AppConst.Genie.PLAYLIST_TYPE_DRIVING:
                     Log.e("kjw333", "here2222 : " + ((GeniePlayListItem)item).getPlm_title());
 
                     if (!isPlayDepth) {
                         getRecommList(((GeniePlayListItem) item).getPlm_seq());
                     } else {
                         // 스트리밍 요청
+                        getStreamingPath(((GenieItem)item).getSong_id());
                     }
                     break;
             }
@@ -155,10 +175,8 @@ public class MainFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (position == 0) { // 재생 리스트
-                // type 변경
 
             } else if (position == 1) { // 차트
-                // type 변경
                 getChartList();
             } else if (position == 2) { // 드라이빙
                 getDrivingPlayList();

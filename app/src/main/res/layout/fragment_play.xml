@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.fragment.PlayFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_playlist"
+        android:layout_width="330dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="0dp" />
+
+    <RelativeLayout
+        android:layout_width="853.33dp"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/rv_playlist">
+
+        <TextView
+            android:id="@+id/tv_play_list"
+            android:layout_width="400dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="38dp"
+            android:ellipsize="end"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:textColor="black"
+            android:textSize="24sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_songtitle"
+            android:layout_width="400dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="68dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="@color/font_white"
+            android:textSize="46sp"
+            android:gravity="center_vertical"
+            style="@android:style/Theme.DeviceDefault"
+            />
+
+        <TextView
+            android:id="@+id/tv_artist"
+            android:layout_width="400dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/tv_songtitle"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:gravity="center_vertical"
+            style="@android:style/Theme.DeviceDefault"
+            />
+
+        <ImageView
+            android:layout_width="235dp"
+            android:layout_height="235dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="140dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/me_bg_default"/>
+
+        <ImageView
+            android:id="@+id/iv_albumart"
+            android:layout_width="231dp"
+            android:layout_height="231dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="52dp"
+            android:layout_marginRight="142dp"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/btn_prev"
+            android:layout_width="100dp"
+            android:layout_height="58dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginRight="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="96dp"
+            android:background="@drawable/selector_me_ic_pre"/>
+
+        <Button
+            android:id="@+id/btn_playpause"
+            android:layout_width="100dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/btn_prev"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="96dp"
+            android:background="@drawable/selector_me_ic_play"/>
+
+        <Button
+            android:id="@+id/btn_foward"
+            android:layout_width="100dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/btn_playpause"
+            android:layout_marginBottom="96dp"
+            android:background="@drawable/selector_me_ic_foward"/>
+
+        <Button
+            android:id="@+id/btn_fav"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="72.66dp"
+            android:layout_marginBottom="65dp"
+            android:background="@drawable/selector_qm_ic_fav"/>
+
+        <Button
+            android:id="@+id/btn_shuffle"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_above="@id/btn_fav"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="72.66dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/selector_me_ic_random_a"/>
+
+        <Button
+            android:id="@+id/btn_repeat"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/btn_shuffle"
+            android:layout_marginRight="72.66dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/selector_me_ic_repeat_a"/>
+
+        <SeekBar
+            android:id="@+id/pb_download"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:background="@null"
+            android:progressDrawable="@drawable/custom_seekbar"
+            android:thumb="@null"
+            android:max="100"
+            android:rotation="180"
+            android:layout_alignParentBottom="true"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:background="@drawable/me_bg_progress_bg"
+            android:layout_alignParentBottom="true"
+            ></View>
+
+
+        <TextView
+            android:id="@+id/tv_playtime"
+            android:layout_width="74dp"
+            android:layout_height="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:gravity="center_vertical|right"/>
+
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:progressDrawable="@drawable/seekbar"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:background="@null"
+            android:thumb="@null"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
+            android:id="@+id/tv_lyrics"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:paddingLeft="70dp"
+            android:paddingRight="72dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="38dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="24sp"
+            android:textColor="#c7c7c7"
+            style="@android:style/Theme.DeviceDefault"
+            />
+
+        <TextView
+            android:id="@+id/tv_curtime"
+            android:layout_width="74dp"
+            android:layout_height="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:gravity="center_vertical|right"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

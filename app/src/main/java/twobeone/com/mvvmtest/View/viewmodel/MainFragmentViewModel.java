@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import twobeone.com.mvvmtest.Model.Genie.GenieItem;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListItem;
+import twobeone.com.mvvmtest.Model.Genie.GenieStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
 import twobeone.com.mvvmtest.Network.GenieRepository;
 
@@ -24,5 +25,9 @@ public class MainFragmentViewModel extends ViewModel {
 
     public MutableLiveData<Resource<ArrayList<GenieItem>>> getRecommList(int playListId) {
         return repository.getRecommList(playListId);
+    }
+
+    public MutableLiveData<Resource<ArrayList<GenieStreamingItem>>> getStreamingPath(int songId) {
+        return repository.getStreamingPath(songId);
     }
 }

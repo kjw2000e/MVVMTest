@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item android:drawable="@drawable/me_ic_pre_focus" android:state_focused="true"/>-->
+    <item android:state_pressed="true" android:state_enabled="true" android:drawable="@drawable/me_ic_pre_nor_p"/>
+    <item android:state_pressed="true" android:state_enabled="false" android:drawable="@drawable/me_ic_pre_dis_p"/>
+    <item android:drawable="@drawable/me_ic_pre_dis" android:state_enabled="false"/>
+    <item android:drawable="@drawable/me_ic_pre_nor" />
+
+    </selector>

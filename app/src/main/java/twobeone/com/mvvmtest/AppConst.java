@@ -13,11 +13,23 @@ public class AppConst {
 
     // genie
     public class Genie {
-        public static final String PLAYLIST_TYPE_GENIE_INQUEUE = "genie_inqueue";
-        public static final String PLAYLIST_TYPE_GENIE_CHART = "genie_chart";
-        public static final String PLAYLIST_TYPE_GENIE_DRIVING = "genie_driving";
-        public static final String PLAYLIST_TYPE_GENIE_MYLIST = "genie_mylist";
-        public static final String PLAYLIST_TYPE_GENIE_LATESTMUSIC = "genie_latestmusic";
+        public static final String PLAYLIST_TYPE_INQUEUE = "genie_inqueue";
+        public static final String PLAYLIST_TYPE_CHART = "genie_chart";
+        public static final String PLAYLIST_TYPE_DRIVING = "genie_driving";
+        public static final String PLAYLIST_TYPE_MYLIST = "genie_mylist";
+        public static final String PLAYLIST_TYPE_LATESTMUSIC = "genie_latestmusic";
+
+        public static final String PARAM_BRAND = "brand";
+        public static final String PARAM_PG_SIZE = "pgsize";
+        public static final String PARAM_QUERY = "query";
+        public static final String PARAM_SONG_ID = "song_id";
+        public static final String PARAM_PLAYLIST_ID = "plm_seq";
+        public static final String PARAM_ITEMS = "items";
+        public static final String PARAM_TYPE = "type";
+        public static final String PARAM_SORT = "sort";
+        public static final String PARAM_ACCESS_TOKEN = "access_token";
+        public static final String PARAM_MXNM = "mxnm";
+        public static final String PARAM_SONGID = "songId";
     }
 
     //melon
