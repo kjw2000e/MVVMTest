@@ -8,7 +8,9 @@ public class AppConst {
     }
 
     public class Frag {
+        public static final String FRAG_ID_NONE = "";
         public static final String FRAG_ID_MAIN = "MainFragment";
+        public static final String FRAG_ID_PLAY = "PlayFragment";
     }
 
     // genie

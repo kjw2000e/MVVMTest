@@ -18,12 +18,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import twobeone.com.mvvmtest.AppConst;
+import twobeone.com.mvvmtest.GeniePlayListManager;
+import twobeone.com.mvvmtest.Interface.IMainFragmentListener;
 import twobeone.com.mvvmtest.Interface.OnPlayListItemClickListener;
 import twobeone.com.mvvmtest.Model.Genie.GenieItem;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListItem;
 import twobeone.com.mvvmtest.Model.Genie.GenieStreamingItem;
 import twobeone.com.mvvmtest.Model.vo.Resource;
 import twobeone.com.mvvmtest.Model.vo.Status;
+import twobeone.com.mvvmtest.PlayListManager2;
 import twobeone.com.mvvmtest.View.adapter.PlayListAdapter;
 import twobeone.com.mvvmtest.View.adapter.TabListAdapter;
 import twobeone.com.mvvmtest.View.viewmodel.MainFragmentViewModel;
@@ -39,6 +42,8 @@ public class MainFragment extends Fragment {
     private MainFragmentViewModel mainFragmentViewModel;
     private RecyclerView mRvPlayList;
     private PlayListAdapter<GenieItem, GeniePlayListItem> playListAdapter;
+
+    private IMainFragmentListener mainActListener;
 
     public MainFragment() {
         // Required empty public constructor
@@ -77,9 +82,16 @@ public class MainFragment extends Fragment {
     }
 
 
+    // todo base 포함
     public String getViewId() {
         return AppConst.Frag.FRAG_ID_MAIN;
     }
+
+    // todo base 포함
+    public void setInterface(IMainFragmentListener listener){
+        mainActListener = listener;
+    }
+
 
     private void getChartList() {
         mainFragmentViewModel.getChartList().observe(this, new Observer<Resource<ArrayList<GenieItem>>>() {
@@ -150,11 +162,16 @@ public class MainFragment extends Fragment {
 
     private OnPlayListItemClickListener playListClickListener = new OnPlayListItemClickListener() {
         @Override
-        public void onClick(Object item, String type, boolean isPlayDepth) {
+        public void onClick(Object item, int position, String type, boolean isPlayDepth) {
             switch (type) {
                 case AppConst.Genie.PLAYLIST_TYPE_CHART:
                     Log.e("kjw333", "here1111 : " + ((GenieItem)item).getSong_name());
-                    getStreamingPath(((GenieItem) item).getSong_id());
+                    if (GeniePlayListManager.getInstance() != null) {
+                        GeniePlayListManager.getInstance().setCurPlayCategory(GeniePlayListManager.PLAY_CATEGORY_CHART, null);
+                        GeniePlayListManager.getInstance().setPlayList(position, playListAdapter.getSongList());
+                    }
+                    mainActListener.setPlayerScreen(true);
+//                    getStreamingPath(((GenieItem) item).getSong_id());
                     break;
                 case AppConst.Genie.PLAYLIST_TYPE_DRIVING:
                     Log.e("kjw333", "here2222 : " + ((GeniePlayListItem)item).getPlm_title());

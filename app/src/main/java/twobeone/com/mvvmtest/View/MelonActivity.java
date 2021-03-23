@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
 
-public class MelonActivity extends AppCompatActivity implements PlayerCallback {
+public class MelonActivity extends BaseActivity implements PlayerCallback {
     private ActivityMelonBinding activityMelonBinding;
     private IncludeMiniPlayerBinding miniPlayerBinding;
     private MainViewModel mainViewModel;
@@ -42,8 +42,6 @@ public class MelonActivity extends AppCompatActivity implements PlayerCallback {
     private PlayListAdapter mPlayListAdapter;
 
     private PlayerView mPlayerView;
-    private boolean mBound = false;
-    private ExoPlayerService mService = null;
     private PlayerController playerController = null;
 
     private RelativeLayout layout_player;
@@ -69,7 +67,7 @@ public class MelonActivity extends AppCompatActivity implements PlayerCallback {
 
         mPlayListAdapter = new PlayListAdapter(new OnPlayListItemClickListener() {
             @Override
-            public void onClick(Object item, String type, boolean isPlayDepth) {
+            public void onClick(Object item, int position, String type, boolean isPlayDepth) {
                 mainViewModel.getStreamingInfo((MelonItem)item).observe(MelonActivity.this, new Observer<Resource<MelonStreamingItem>>() {
                     @Override
                     public void onChanged(Resource<MelonStreamingItem> item) {
@@ -112,34 +110,15 @@ public class MelonActivity extends AppCompatActivity implements PlayerCallback {
                 });
             }
         });
-
-        // 서비스 시작
-        Intent intent = new Intent(getApplicationContext(), ExoPlayerService.class);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e("kjw333", "onServiceConnected");
-            if (!mBound) {
-                ExoPlayerService.LocalBinder binder = (ExoPlayerService.LocalBinder)service;
-                mService = binder.getService();
-                mBound = true;
+    @Override
+    public void setPlayerController(ExoPlayerService service) {
+        playerController = service;
 
-                playerController = mService;
-                playerController.addPlayerCallback(AppConst.StreamingType.STREAMING_TYPE_MELON, MelonActivity.this);
-
-//                mPlayerView.setPlayer(playerController.getPlayer());
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mBound = false;
-        }
-    };
-
+        //todo 플레이 컨트롤 사용할 뷰에서 함수 만들어서 적용 시킬것
+        playerController.addPlayerCallback(AppConst.StreamingType.STREAMING_TYPE_MELON, MelonActivity.this);
+    }
 
     @Override
     public void onPrepared(int duration) {

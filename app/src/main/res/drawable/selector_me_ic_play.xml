@@ -4,7 +4,6 @@
     <!--<item android:drawable="@drawable/me_ic_play_focus" android:state_focused="true"/>-->
     <item android:state_pressed="true">
         <layer-list>
-            <item android:drawable="@drawable/me_bt_push"></item>
             <item android:drawable="@drawable/me_ic_play_nor"></item>
         </layer-list>
     </item>

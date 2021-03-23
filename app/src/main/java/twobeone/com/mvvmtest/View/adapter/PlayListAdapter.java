@@ -6,9 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import twobeone.com.mvvmtest.AppConst;
+import twobeone.com.mvvmtest.GeniePlayListManager;
 import twobeone.com.mvvmtest.Interface.OnPlayListItemClickListener;
 import twobeone.com.mvvmtest.Model.Genie.GenieItem;
 import twobeone.com.mvvmtest.Model.Genie.GeniePlayListItem;
@@ -43,6 +46,10 @@ public class PlayListAdapter<T, G> extends RecyclerView.Adapter<PlayListAdapter.
         notifyDataSetChanged();
     }
 
+    public void updateData(String type, ArrayList<T> songList) {
+        updateData(type, true, songList, null);
+    }
+
 
     @NonNull
     @Override
@@ -66,7 +73,7 @@ public class PlayListAdapter<T, G> extends RecyclerView.Adapter<PlayListAdapter.
                     holder.mTvTitle.setText(((GenieItem) t).getSong_name());
                 }
 
-                holder.onBindClickListener(t, mType, isPlayDepth, mClickListener);
+                holder.onBindClickListener(t, mType, position, isPlayDepth, mClickListener);
             }
         } else {
             g = mPlayList.get(position);
@@ -75,7 +82,7 @@ public class PlayListAdapter<T, G> extends RecyclerView.Adapter<PlayListAdapter.
                     holder.mTvTitle.setText(((GeniePlayListItem) g).getPlm_title());
                 }
 
-                holder.onBindClickListener(g, mType, isPlayDepth, mClickListener);
+                holder.onBindClickListener(g, mType, position, isPlayDepth, mClickListener);
             }
         }
 
@@ -90,6 +97,21 @@ public class PlayListAdapter<T, G> extends RecyclerView.Adapter<PlayListAdapter.
         }
     }
 
+    public ArrayList<G> getPlayList() {
+        if (mPlayList != null) {
+            return mPlayList;
+        }
+
+        return null;
+    }
+
+    public ArrayList<T> getSongList() {
+        if (mSongList != null) {
+            return mSongList;
+        }
+        return null;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvTitle;
         public ViewHolder(@NonNull View itemView) {
@@ -97,11 +119,11 @@ public class PlayListAdapter<T, G> extends RecyclerView.Adapter<PlayListAdapter.
             mTvTitle = itemView.findViewById(R.id.tv_title);
         }
 
-        public void onBindClickListener(Object item, String type, boolean isPlayDepth, OnPlayListItemClickListener listener) {
+        public void onBindClickListener(Object item, String type, int postion, boolean isPlayDepth, OnPlayListItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onClick(item, type, isPlayDepth);
+                    listener.onClick(item, postion, type, isPlayDepth);
                 }
             });
         }

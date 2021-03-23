@@ -8,6 +8,8 @@ public class GlobalStatus {
     private static boolean otaProgress;
     private static boolean apkDownloadStop;
 
+    private static String curFragment = AppConst.Frag.FRAG_ID_NONE;
+
     public static void init() {
         engineer = false;
         currentViewId = 0;
@@ -75,5 +77,13 @@ public class GlobalStatus {
 
     public static void setApkDownloadStop(boolean apkDownloadStop) {
         apkDownloadStop = apkDownloadStop;
+    }
+
+    public static String getCurFragment() {
+        return curFragment;
+    }
+
+    public static void setCurFragment(String curFragment) {
+        GlobalStatus.curFragment = curFragment;
     }
 }

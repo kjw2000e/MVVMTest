@@ -31,7 +31,7 @@ public class GeniePlayListManager {
     private int curSuffleIndex = 0;
     private int tempSuffleIndex = 0;
 
-    private List<GenieItem> mPlayList = null;
+    private ArrayList<GenieItem> mPlayList = null;
     private int curPlayCategory = PLAY_CATEGORY_NONE;
     private String curPlaySubID = null;
 
@@ -80,7 +80,7 @@ public class GeniePlayListManager {
         curSuffleIndex = position;
     }
 
-    public List<GenieItem> getPlayList() {
+    public ArrayList<GenieItem> getPlayList() {
         if (mPlayList == null) {
             mPlayList = new ArrayList<GenieItem>();
         }

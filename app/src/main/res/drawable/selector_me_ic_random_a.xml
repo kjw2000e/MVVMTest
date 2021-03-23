@@ -3,7 +3,6 @@
 
 <item android:state_pressed="true">
     <layer-list>
-        <item android:drawable="@drawable/me_bt_push"></item>
 
         <item>
             <bitmap android:gravity="center" android:src="@drawable/me_ic_random_a_nor">

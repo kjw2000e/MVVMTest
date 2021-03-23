@@ -19,7 +19,8 @@
     <RelativeLayout
         android:layout_width="853.33dp"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/rv_playlist">
+        android:layout_toEndOf="@id/rv_playlist"
+        android:layout_marginTop="120dp">
 
         <TextView
             android:id="@+id/tv_play_list"
@@ -30,7 +31,7 @@
             android:ellipsize="end"
             android:gravity="left|center_vertical"
             android:singleLine="true"
-            android:textColor="black"
+            android:textColor="@color/font_white"
             android:textSize="24sp"
             />
 
@@ -71,7 +72,8 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="140dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/me_bg_default"/>
+            android:background="@drawable/me_bg_default"
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/iv_albumart"
